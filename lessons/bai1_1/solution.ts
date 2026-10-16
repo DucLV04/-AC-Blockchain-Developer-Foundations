@@ -6,8 +6,11 @@ export type Block = {
   previous_hash: string;
   current_hash: string;
 };
+const crypto = require('crypto');
 
 // ✍️ TODO: Viết hàm tại đây
 export function isValidBlock(block: Block): boolean {
-  return false; // Chỉnh lại logic
+  const value = block.index + block.timestamp + JSON.stringify(block.transactions) + block.previous_hash;
+  const expectedHash = crypto.createHash('sha256').update(value).digest('hex');
+  return block.current_hash === expectedHash;
 }
